@@ -20,6 +20,7 @@ const useData = <T>(
     () => {
       const controller = new AbortController();
       setLoading(true);
+
       apiClient
         .get<FetchResponse<T>>(endpoint, {
           signal: controller.signal,
@@ -34,7 +35,9 @@ const useData = <T>(
           setError(error.message);
           setLoading(false);
         });
-      return () => controller.abort;
+      return () => {
+        controller.abort;
+      };
     },
     deps ? [...deps] : []
   );
